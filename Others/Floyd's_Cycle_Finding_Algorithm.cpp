@@ -1,29 +1,7 @@
-#/****Bismillahir rahmanir rahim****/
-
 #include<bits/stdc++.h>
 
 using namespace std;
 
-typedef long long            ll;
-typedef long double          ld;
-typedef vector<int>          vi;
-typedef vector<long long>    vl;
-typedef vector<double>       vd;
-
-#define All(a) a.begin(),a.end()
-
-template <typename T>
-void get_vector(T &a)
-{
-    for(auto &e: a) cin >> e;
-}
-
-template <typename T>
-void put_vector(T a)
-{
-    for(auto e :a)cout << e << " ";
-    cout << endl;
-}
 const int mod = 11;
 
 //a function that generates a repeated series
