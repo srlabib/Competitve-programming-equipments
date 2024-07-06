@@ -5,23 +5,44 @@ using namespace std;
  
 vector<bool>mark;
 const long long inf = 1e18;
-vector<long long> distance(vector<vector<pair<long long,long long>>>G,int source){
-    set<pair<long long,long long>>Q;
+
+struct Node{
+    long long  at;
+    long long cost;
+};
+
+bool operator<(Node A, Node B){  
+    return A.cost>B.cost;  // The node with higher cost is defined as smaller
+}
+
+struct edge{
+    long long at;
+    long long cost;
+};
+
+vector<long long> distance(vector<vector<edge>>G,int source){
+
+
+    priority_queue<Node>Q;
     vector<long long>distance(G.size(),inf);
  
-    Q.insert({0,source});
+    Q.push({source,0});
     distance[source] = 0;
+
     while(!Q.empty()){
-        int u = (*Q.begin()).second;
-        Q.erase(Q.begin());
-        if(mark[u]==1)continue;
-        mark[u] = 1;
-        for(auto v:G[u]){
-            if(distance[v.first]>distance[u]+v.second){
-                distance[v.first] = distance[u]+v.second;
-                Q.insert({distance[v.first],v.first});
+        Node u = Q.top();
+        Q.pop();
+
+        if(mark[u.at])continue;
+        mark[u.at] = 1;
+
+        for(auto v:G[u.at]){
+            if(distance[v.at]>distance[u.at]+v.cost){
+                distance[v.at] = distance[u.at]+v.cost;
+                Q.push({v.at,distance[v.at]});
             }
         }
+
     }
     return distance;
 }
@@ -29,19 +50,24 @@ vector<long long> distance(vector<vector<pair<long long,long long>>>G,int source
 int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
+
+
     int n;
     cin>>n;
-    mark.resize(n+1);
-    vector<vector<pair<long long,long long>>>graph(n+1);
+    mark.resize(n);
+    vector<vector<edge>>graph(n);
+
     int q;
     cin>>q;
+    
     while(q--){
         long long u,v,w;
         cin>>u>>v>>w;
-        graph[u].push_back({v,w});
+        graph[u-1].push_back({v-1,w});
     }
-    vector<long long>res = distance(graph,1);
-    for(int i = 1; i<=n; i++)cout << res[i]<< ' ';
+
+    vector<long long>res = distance(graph,0);
+    for(int i = 0; i<n; i++)cout << res[i]<< ' ';
     cout << endl;
  
  
