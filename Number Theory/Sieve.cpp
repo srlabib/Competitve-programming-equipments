@@ -12,7 +12,7 @@ void sieve() {
     mark[2] = true;
     for (i = 3; i <= RANGE; i += 2) mark[i] = true;
     int limit = sqrt(RANGE) + 2;
-    for (i = 2; i <= RANGE; i++) {
+    for (i = 2; i <= RANGE; i++) { // when I dont need to store all the primes then I can iterate upto sqrt(RANGE) 
         if (mark[i]) {
             primes.push_back(i);
             if (i < limit) {
