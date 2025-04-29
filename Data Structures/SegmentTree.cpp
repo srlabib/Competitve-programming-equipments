@@ -28,19 +28,15 @@ template<typename T> void put_vector(T a){for(auto e:a)cout<<e<<" ";cout<<endl;}
 const int inf = INT_MAX;
 const int INF = 1e18;
 
-struct SegmentTree{
+
+class SegmentTree{
     struct item{
         int x;
     };
 
     item NUTRAL_ITEM = {0};// merge(a , NUTRAL_ITEM) = a
     vector<item>values;
-
-    SegmentTree(vector<int>&a){
-        int n = a.size();
-        values.resize(n*4);
-        build(a,1,0,n-1);
-    }
+    int n;
 
     item merge(item a, item b){
         return {a.x+b.x};
@@ -88,8 +84,19 @@ struct SegmentTree{
         item right = query(at * 2 + 1, mid + 1, e, l, r);
         return merge(left, right);
     }
-    
-    
+
+    public:
+    SegmentTree(vector<int>&a){
+        n = a.size();
+        values.resize(n*4);
+        build(a,1,0,n-1);
+    }
+    item query(int l,int r){
+        return query(1,0,n-1,l,r);
+    }
+    void update(int i, int v){
+        update(1,0,n-1,i,v);
+    }
 };
 
 
