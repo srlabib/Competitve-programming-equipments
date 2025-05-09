@@ -32,7 +32,7 @@ const int INF = 1e18;
 
 class SegmentTree{
     vector<int>values;
-    vector<int>lazy;
+    vector<pair<int,bool>>lazy;// {value,1 if set 0 if update}
 
     int n;
     //function to combine two segment
@@ -54,26 +54,52 @@ class SegmentTree{
 
     // pushing pending updates to children. lazy propation
     void push(int at,int b, int e){
-        if(lazy[at] == 0)return;             // no pending update
-        values[at] += lazy[at]*(e-b+1);     //  for sum query
-        if(b != e){                        // propagating the update to the child when not on the leaf
-            lazy[at*2] += lazy[at];
-            lazy[at*2+1] += lazy[at];
+        if(lazy[at].first == 0)return;             // no pending update
+        if(lazy[at].second == 1){
+            values[at] = lazy[at].first*(e-b+1);
         }
-        lazy[at] = 0;                      // clearing the pending update
+        else {
+            values[at] += lazy[at].first*(e-b+1);     //  for sum query
+        }
+        if(b != e){                   // propagating the update to the child when not on the leaf
+            if(lazy[at].second == 1){   // if the type is set
+                lazy[at*2] = lazy[at];
+                lazy[at*2+1] = lazy[at];
+            }        
+            else{                   // if the type is update
+                lazy[at*2].first += lazy[at].first;
+                lazy[at*2+1].first += lazy[at].first;
+            }                
+        }
+        lazy[at] = {0,0};           // clearing the pending update after propagating to child
     }
 
     void update(int at,int b, int e, int l, int r,int v){
         push(at,b,e);       // updating the sum at the node and propagating pending update to the children
+
         if (r < b || e < l) return;
         if (l <= b && e <= r) {
-            lazy[at] += v;
+            lazy[at].first += v;
             push(at,b,e);
             return;
         }
         int mid = (b+e)>>1;
         update(at*2,b,mid,l,r,v);
         update(at*2+1,mid+1,e,l,r,v);
+        values[at] = merge(values[at*2],values[at*2+1]);
+    }
+
+    void set(int at,int b, int e, int l, int r,int v){
+        push(at,b,e);       // updating the sum at the node and propagating pending update to the children
+        if (r < b || e < l) return;
+        if (l <= b && e <= r) {
+            lazy[at] = {v,1};
+            push(at,b,e);
+            return;
+        }
+        int mid = (b+e)>>1;
+        set(at*2,b,mid,l,r,v);
+        set(at*2+1,mid+1,e,l,r,v);
         values[at] = merge(values[at*2],values[at*2+1]);
     }
     //query(1,0,n-1,l,r)  *** (l,r are 0 indedxed)
@@ -98,6 +124,7 @@ class SegmentTree{
         values.resize(n*4);
         lazy.resize(n*4);
         build(a,1,0,n-1);
+
     }
     int query(int l,int r){
         return query(1,0,n-1,l,r);
@@ -105,12 +132,16 @@ class SegmentTree{
     void update(int l,int r, int v){
         update(1,0,n-1,l,r,v);
     }
+    void set(int l,int r,int v){
+        set(1,0,n-1,l,r,v);
+    }
 };
 
 void solve(){
     int n,m;
     cin>>n>>m;
     vi a(n+1);
+    FOR(i,0,n)cin>>a[i];
     SegmentTree st(a);
 
     while(m--){
@@ -119,13 +150,19 @@ void solve(){
         if(t == 1){
             int l,r,v;
             cin>>l>>r>>v;
-            st.update(l,r-1,v);
+            st.update(l-1,r-1,v);
+        }
+        else if(t == 2){
+            int l,r,v;
+            cin>>l>>r>>v;
+            st.set(l-1,r-1,v);
         }
         else{
             int l,r;
             cin>>l>>r;
-            cout << st.query(l,r-1) << endl;
+            cout << st.query(l-1,r-1) << endl;
         }
+        
     }
 
 }
