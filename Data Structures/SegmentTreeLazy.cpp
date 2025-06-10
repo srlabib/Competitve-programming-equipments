@@ -53,25 +53,26 @@ class SegmentTree{
     }
 
     // pushing pending updates to children. lazy propation
-    void push(int at,int b, int e){
-        if(lazy[at].first == 0)return;             // no pending update
-        if(lazy[at].second == 1){
-            values[at] = lazy[at].first*(e-b+1);
+    void push(int at, int b, int e) {
+        // Remove the initial check since we want to propagate even zero values
+        if(lazy[at].second == 1) {  // If it's a set operation
+            values[at] = lazy[at].first * (e-b+1);
         }
-        else {
-            values[at] += lazy[at].first*(e-b+1);     //  for sum query
+        else {  // If it's an update operation
+            values[at] += lazy[at].first * (e-b+1);
         }
-        if(b != e){                   // propagating the update to the child when not on the leaf
-            if(lazy[at].second == 1){   // if the type is set
+        
+        if(b != e) {  // Not a leaf node
+            if(lazy[at].second == 1) {  // Set operation
                 lazy[at*2] = lazy[at];
                 lazy[at*2+1] = lazy[at];
-            }        
-            else{                   // if the type is update
+            }
+            else {  // Update operation
                 lazy[at*2].first += lazy[at].first;
                 lazy[at*2+1].first += lazy[at].first;
-            }                
+            }
         }
-        lazy[at] = {0,0};           // clearing the pending update after propagating to child
+        lazy[at] = {0,0};  // Always clear the lazy value
     }
 
     void update(int at,int b, int e, int l, int r,int v){
@@ -124,9 +125,14 @@ class SegmentTree{
         values.resize(n*4);
         lazy.resize(n*4);
         build(a,1,0,n-1);
-
+    }
+    SegmentTree(int N){
+        n = N;
+        values.resize(n*4,0);
+        lazy.resize(n*4);
     }
     int query(int l,int r){
+        if(l>r)return 0;
         return query(1,0,n-1,l,r);
     }
     void update(int l,int r, int v){
