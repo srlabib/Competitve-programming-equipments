@@ -5,17 +5,14 @@ using namespace std;
 // #include<ext/pb_ds/assoc_container.hpp>
 // #include<ext/pb_ds/tree_policy.hpp>
 // using namespace __gnu_pbds;
-// typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_set; // find_by_order, order_of_key
+// template<typename T>
+// using ordered_set = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>; // find_by_order, order_of_key
 
 #define int long long
 typedef long long ll;
-typedef vector<ll> vl;
 typedef vector<int> vi;
 typedef vector<bool> vb;
 typedef vector<vi> vvi;
-typedef vector<vl> vvl;
-typedef pair<ll,ll> pll;
-typedef vector<pll> vpll;
 
 #define checkbit(x,n) (x&(1LL<<n))
 #define setbit(x,n) (x=(x|(1LL<<n)))
@@ -30,7 +27,7 @@ const int inf = INT_MAX;
 const int INF = 1e18;
 
 void solve(){
-    //start coding here
+
 }
 
 signed main()
