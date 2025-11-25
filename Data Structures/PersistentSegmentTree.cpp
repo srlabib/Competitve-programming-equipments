@@ -139,3 +139,5 @@ signed main()
     }
     return 0;
 }
+
+// https://discuss.codechef.com/t/persistence-made-simple-tutorial/14915
