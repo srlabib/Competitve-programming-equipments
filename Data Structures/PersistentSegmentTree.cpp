@@ -69,7 +69,7 @@ class PersistentSegmentTree{
         return newParent(build(a,b,mid),build(a,mid+1,e));
     }
     int update(int at,int b, int e, int i,int v){
-        if (b == e && b == i) return newNode(v);
+        if (b == e && b == i) return newNode(v); //set value // to increase value modify: newNode(v+t[at].v.x)
         int mid = (b+e)>>1;
         if(i<=mid)return newParent(update(t[at].left,b,mid,i,v),t[at].right);
         else return newParent(t[at].left,update(t[at].right,mid+1,e,i,v));
