@@ -88,6 +88,12 @@ class PersistentSegmentTree{
         n = a.size();
         roots.push_back(build(a,0,n-1));
     }
+    PersistentSegmentTree(int n){
+        this->n = n;
+        roots.push_back(newNode(0)); // blank node
+        t[0].left = t[0].right = 0;
+        t[0].v.x = 0;
+    }
     item query(int version,int l,int r){
         return query(roots[version],0,n-1,l,r);
     }
