@@ -35,7 +35,7 @@
 		"const int INF = 1e18;",
 		"",
 		"void solve(){",
-		"",
+		"    ${0://start coding here}",
 		"}",
 		"",
 		"signed main()",
