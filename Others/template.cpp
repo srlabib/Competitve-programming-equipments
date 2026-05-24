@@ -11,14 +11,18 @@ using namespace std;
 #define int long long
 typedef long long ll;
 typedef vector<int> vi;
-typedef vector<bool> vb;
+typedef vector<pair<int,int>> vpi;
 typedef vector<vi> vvi;
 
-#define checkbit(x,n) (x&(1LL<<n))
+#define first ff
+#define second ss
+#define push_back pb
+
+#define checkbit(x,n) ((x>>n)&1)
 #define setbit(x,n) (x=(x|(1LL<<n)))
 #define resetbit(x,n) (x=(x&(~(1LL<<n))))
 
-#define All(a) a.begin(),a.end()
+#define all(a) a.begin(),a.end()
 #define FOR(i,a,b) for(int i=a;i<b;i++)
 template<typename T> void get_vector(T&a){for(auto&e:a)cin>>e;}
 template<typename T> void put_vector(T a){for(auto e:a)cout<<e<<" ";cout<<endl;}
