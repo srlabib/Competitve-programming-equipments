@@ -14,8 +14,8 @@ typedef vector<int> vi;
 typedef vector<pair<int,int>> vpi;
 typedef vector<vi> vvi;
 
-#define ff push_back
-#define ss push_back
+#define ff first
+#define ss second
 #define pb push_back
 
 #define checkbit(x,n) ((x>>n)&1)
